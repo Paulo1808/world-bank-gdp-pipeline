@@ -8,8 +8,9 @@ RAW_DIR = "data/raw"
 
 
 def fetch_gdp_data():
+
     all_records = []
-    page = 1
+    page = 50
 
     while True:
         url = f"{BASE_URL}?format=json&page={page}"
@@ -28,7 +29,7 @@ def fetch_gdp_data():
         if page >= metadata["pages"]:
             break
 
-        if page == 50:
+        if page == 100:
             print("⚠️ Limite de páginas atingido (50). Parando a coleta.")
             break
 
