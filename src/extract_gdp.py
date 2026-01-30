@@ -1,3 +1,4 @@
+from pkgutil import get_data
 import requests
 import json
 import os
@@ -10,9 +11,15 @@ RAW_DIR = "data/raw"
 def fetch_gdp_data():
 
     all_records = []
-    page = 50
+    page = 1
 
     while True:
+        
+        if page == 244:
+            print("⚠️ Pulando página 244 devido a problemas desconhecidos.")
+            page += 1
+            continue
+
         url = f"{BASE_URL}?format=json&page={page}"
         print(f"📥 Coletando página {page}")
 
@@ -27,10 +34,6 @@ def fetch_gdp_data():
         all_records.extend(records)
 
         if page >= metadata["pages"]:
-            break
-
-        if page == 100:
-            print("⚠️ Limite de páginas atingido (50). Parando a coleta.")
             break
 
         page += 1
@@ -52,6 +55,7 @@ def save_raw_data(data):
 
 
 if __name__ == "__main__":
-    gdp_data = fetch_gdp_data()
-    print(f"Total de registros: {len(gdp_data)}")
-    save_raw_data(gdp_data)
+   gdp_data = fetch_gdp_data()
+   print(f"Total de registros: {len(gdp_data)}")
+   save_raw_data(gdp_data)
+
