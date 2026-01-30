@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 
 BASE_URL = "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.CD"
-RAW_DIR = "data/raw"
+RAW_DIR = "data/raw/world_bank"
 
 
 def fetch_gdp_data():
@@ -53,9 +53,19 @@ def save_raw_data(data):
 
     print(f"✅ Dados salvos em: {file_path}")
 
+def save_log(total_records):
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
+
+    log_file = os.path.join(log_dir, "extract_log.txt")
+
+    with open(log_file, "a", encoding="utf-8") as f:
+        f.write(f"{datetime.now()}: Total de registros extraídos: {total_records}\n")
 
 if __name__ == "__main__":
    gdp_data = fetch_gdp_data()
    print(f"Total de registros: {len(gdp_data)}")
    save_raw_data(gdp_data)
+   save_log(len(gdp_data))
+
 
